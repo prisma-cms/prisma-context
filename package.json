@@ -1,10 +1,11 @@
 {
   "name": "@prisma-cms/prisma-context",
-  "version": "1.0.0",
-  "description": "Describe @prisma-cms/prisma-context here",
+  "version": "1.0.1-beta",
+  "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
+    "src",
     "es",
     "lib",
     "umd"
@@ -18,12 +19,32 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
+    "graphql": "^0.13.2",
+    "prisma-binding": "2.1.5"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "module": "^1.2.5",
     "nwb": "0.23.x"
   },
-  "author": "",
-  "homepage": "",
+  "author": "Fi1osof",
   "license": "MIT",
-  "repository": ""
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prisma-cms/prisma-context.git"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "keywords": [
+    "prisma",
+    "cms",
+    "server",
+    "context"
+  ],
+  "bugs": {
+    "url": "https://github.com/prisma-cms/prisma-context/issues"
+  },
+  "homepage": "https://github.com/prisma-cms/prisma-context#readme"
 }
