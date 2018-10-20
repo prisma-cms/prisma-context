@@ -8,15 +8,52 @@ class Context {
 
   constructor(params = {}) {
 
-    const {
+    // console.log("Context params", params);
+
+    let {
       APP_SECRET,
+      db,
+      getCurrentUser,
       ...other
     } = params;
 
-    const db = new Prisma({
-      typeDefs: 'src/schema/generated/prisma.graphql',
-      ...other,
-    });
+
+    if (db === undefined) {
+
+      db = new Prisma({
+        typeDefs: 'src/schema/generated/prisma.graphql',
+        ...other,
+      });
+
+    }
+
+    if (!getCurrentUser) {
+
+      getCurrentUser = async (request) => {
+
+        const Authorization = request && request.get('Authorization');
+
+        if (Authorization) {
+          try {
+            const token = Authorization.replace('Bearer ', '')
+            const { userId } = jwt.verify(token, APP_SECRET)
+
+            if (userId) {
+              currentUser = await db.query.user({
+                where: {
+                  id: userId,
+                },
+              });
+            }
+          }
+          catch (error) {
+            console.error(error);
+          }
+        }
+
+      };
+
+    }
 
 
 
@@ -27,27 +64,8 @@ class Context {
         response,
       } = options || {};
 
-      let currentUser;
+      let currentUser = getCurrentUser ? getCurrentUser(request) : null;
 
-      const Authorization = request && request.get('Authorization');
-
-      if (Authorization) {
-        try {
-          const token = Authorization.replace('Bearer ', '')
-          const { userId } = jwt.verify(token, APP_SECRET)
-
-          if (userId) {
-            currentUser = await db.query.user({
-              where: {
-                id: userId,
-              },
-            });
-          }
-        }
-        catch (error) {
-          console.error(error);
-        }
-      }
 
       return {
         ...options,

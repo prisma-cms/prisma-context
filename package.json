@@ -1,6 +1,6 @@
 {
   "name": "@prisma-cms/prisma-context",
-  "version": "1.0.2-beta",
+  "version": "1.0.3-beta",
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,12 +19,12 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
-    "graphql": "^0.13.2",
-    "prisma-binding": "2.1.5"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "module": "^1.2.5",
+    "graphql": "^14.0.2",
+    "prisma-binding": "2.1.5",
     "nwb": "0.23.x"
   },
   "author": "Fi1osof",
