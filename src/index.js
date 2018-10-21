@@ -31,16 +31,17 @@ class Context {
 
     if (!getCurrentUser) {
 
-      getCurrentUser = async (request) => {
+      getCurrentUser = async (ctx) => {
+
+        const {
+          request,
+        } = ctx;
 
         let currentUser;
-
-        // console.log(chalk.green("getCurrentUser", request));
-        // console.log(chalk.green("getCurrentUser 2", request.get('Authorization')));
+ 
 
         const Authorization = request && request.get('Authorization');
-
-        // console.log(chalk.green("Authorization get", Authorization));
+ 
 
         if (Authorization) {
           try {
@@ -52,22 +53,15 @@ class Context {
                 where: {
                   id: userId,
                 },
-              })
-                // .catch(error => {
-                //   console.error(chalk.red("prisma-context db.query.user error"), error);
-                // });
+              }) 
             }
-
-            // console.log(chalk.green("getCurrentUser userId", userId));
-            // console.log(chalk.green("getCurrentUser userId currentUser", currentUser));
 
           }
           catch (error) {
             // console.error(chalk.red("prisma-context getCurrentUser error"), error);
           }
         }
-
-        // console.log(chalk.green("getCurrentUser currentUser", currentUser));
+ 
 
         return currentUser;
 
@@ -79,20 +73,18 @@ class Context {
 
     const context = async options => {
 
-      const {
-        request,
-        response,
-      } = options || {};
-
-      let currentUser = getCurrentUser ? await getCurrentUser(request) : null;
-
-
-      return {
+      
+      let context = {
         ...options,
         db,
-        currentUser,
         ...params,
       };
+      
+      let currentUser = getCurrentUser ? await getCurrentUser(context) : null;
+
+      context.currentUser = currentUser;
+
+      return context;
 
     };
 
