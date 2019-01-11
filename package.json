@@ -1,9 +1,8 @@
 {
   "name": "@prisma-cms/prisma-context",
-  "version": "1.0.6-beta",
+  "version": "1.1.0",
   "description": "",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "main": "src/index.mjs",
   "files": [
     "src",
     "es",

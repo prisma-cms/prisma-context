@@ -1,3 +1,8 @@
+1.1.0
+=======================================
+- Migrate to .mjs
+- Fix getCurrentUser on subscribe queries
+
 1.0.6-beta
 =======================================
 - Fix dependencies

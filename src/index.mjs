@@ -1,10 +1,13 @@
 
+import jwt from "jsonwebtoken";
 
-const jwt = require('jsonwebtoken')
+import PrismaBinding from "prisma-binding";
 
-const { Prisma } = require('prisma-binding')
+import chalk from "chalk";
 
-const chalk = require("chalk");
+const {
+  Prisma,
+} = PrismaBinding;
 
 class Context {
 
@@ -33,15 +36,26 @@ class Context {
 
       getCurrentUser = async (ctx) => {
 
+        let currentUser;
+
         const {
           request,
+          connection,
         } = ctx;
 
-        let currentUser;
- 
+        const {
+          context,
+        } = connection || {};
 
-        const Authorization = request && request.get('Authorization');
- 
+        let {
+          Authorization,
+        } = context || {};
+
+
+        // console.log(chalk.green("getCurrentUser connection"), connection);
+
+        Authorization = Authorization || (request && request.get('Authorization'));
+
 
         if (Authorization) {
           try {
@@ -53,7 +67,7 @@ class Context {
                 where: {
                   id: userId,
                 },
-              }) 
+              })
             }
 
           }
@@ -61,7 +75,7 @@ class Context {
             // console.error(chalk.red("prisma-context getCurrentUser error"), error);
           }
         }
- 
+
 
         return currentUser;
 
@@ -73,13 +87,13 @@ class Context {
 
     const context = async options => {
 
-      
+
       let context = {
         ...options,
         db,
         ...params,
       };
-      
+
       let currentUser = getCurrentUser ? await getCurrentUser(context) : null;
 
       context.currentUser = currentUser;
