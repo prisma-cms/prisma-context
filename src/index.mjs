@@ -19,6 +19,7 @@ class Context {
       APP_SECRET,
       db,
       getCurrentUser,
+      currentUserInfo,
       ...other
     } = params;
 
@@ -67,7 +68,7 @@ class Context {
                 where: {
                   id: userId,
                 },
-              })
+              }, currentUserInfo)
             }
 
           }
