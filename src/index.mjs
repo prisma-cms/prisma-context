@@ -1,4 +1,5 @@
 
+import fs from "fs";
 import jwt from "jsonwebtoken";
 
 import PrismaBinding from "prisma-binding";
@@ -20,16 +21,31 @@ class Context {
       db,
       getCurrentUser,
       currentUserInfo,
+      typeDefs,
       ...other
     } = params;
 
 
     if (db === undefined) {
 
-      db = new Prisma({
-        typeDefs: 'src/schema/generated/prisma.graphql',
-        ...other,
-      });
+      if (!typeDefs) {
+
+        const schemaFile = "src/schema/generated/prisma.graphql";
+
+        if (fs.existsSync(schemaFile)) {
+          typeDefs = schemaFile;
+        }
+
+      }
+
+
+      if (typeDefs) {
+        db = new Prisma({
+          typeDefs,
+          ...other,
+        });
+      }
+
 
     }
 
