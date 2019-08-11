@@ -1,3 +1,7 @@
+1.2.0
+=======================================
+- return {processRequest, db} instead context
+
 1.1.2
 =======================================
 - Fix init Prisma

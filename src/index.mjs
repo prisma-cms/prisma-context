@@ -119,7 +119,12 @@ class Context {
 
     };
 
-    return context;
+    // return context;
+    
+    return {
+      processRequest: context,
+      db,
+    };
 
   }
 
